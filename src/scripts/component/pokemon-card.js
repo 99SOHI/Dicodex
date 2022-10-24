@@ -14,16 +14,14 @@ class PokemonCard extends HTMLElement {
     render() {
         this.shadowDOM.innerHTML = `
         <style>
-        a {
-            color: inherit;
-            text-decoration: none;
-          }
 
-        *{
+        * {
             margin: 0;
         }
 
-        :host {
+        a {
+            color: inherit;
+            text-decoration: none;
             display: flex;
             height: 120px;
             flex-direction: column;
@@ -41,12 +39,12 @@ class PokemonCard extends HTMLElement {
             transition: 100ms;
           }
 
-          :host:hover {
+          a:hover {
             scale: 110%;
             transition: 100ms;
           }
 
-          :host > img {
+          a > img {
             align-self: center;
             border-radius: 10px;
             background-color: #f3ece6;
@@ -55,12 +53,14 @@ class PokemonCard extends HTMLElement {
           }
         </style>
 
+        <a href="#test" class="pokemon-card">
                 <img
                   src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this._pokemon.id}.png"
                   alt=""
                 />
                 <h5 class="pokemon-id">#${this._pokemon.number}</h5>
-                <h4 class="pokemon-name">${this._pokemon.name}</h4>`
+                <h4 class="pokemon-name">${this._pokemon.name}</h4>
+            </a>`
     }
 }
 

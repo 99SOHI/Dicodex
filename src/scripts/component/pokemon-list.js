@@ -1,4 +1,5 @@
 import './pokemon-card.js'
+import '../data/data-source.js'
 
 class PokemonList extends HTMLElement {
     constructor() {
@@ -7,6 +8,10 @@ class PokemonList extends HTMLElement {
             mode: 'open'
         })
     }
+
+    // connectedCallback() {
+    //     this.render();
+    // }
 
     set pokemons(pokemons) {
         this._pokemons = pokemons;

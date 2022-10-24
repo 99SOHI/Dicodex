@@ -1,9 +1,7 @@
 import main from './scripts/main.js'
 import './styles/style.css'
 
-document.addEventListener('DOMContentLoaded', function () {
-    main()
-});
+document.addEventListener('DOMContentLoaded', main);
 
 // {
 //     main()

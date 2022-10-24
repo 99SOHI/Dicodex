@@ -1,5 +1,4 @@
 * {
-  margin: 0;
   padding: 0;
   font-family: "Rubik", sans-serif;
 }
@@ -27,40 +26,8 @@ a {
   background-color: #555;
 }
 
-.hero-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1em;
-  padding: 25px;
-  margin: auto;
-  width: 400px;
-}
-
-.search-title {
-  background-color: #5db9ff;
-  margin-left: -1.25em;
-}
-
-.input-section {
-  background-color: gray;
-  padding: 1.25em;
-  border-style: none;
-  border-radius: 5px;
-}
-
-.input-section > input,
-.input-section > button {
-  border-radius: 5px;
-  border: none;
-  padding: 0.25em;
-  box-shadow: none;
-}
-
-#search-box {
-  display: flex;
-  width: 400px;
-  justify-content: space-between;
+hero-section {
+  margin: 128px auto;
 }
 
 /*  ============================== */
@@ -100,14 +67,6 @@ pokemon-list {
 
 .poison {
   background-color: #c6aafd;
-}
-
-#page-navigation {
-  width: 80%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 /* ======================= */
