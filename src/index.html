@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <div class="hero-section">
+      <img src="https://via.placeholder.com/400x200.png?text=Dicodex" alt="" />
+
+      <div id="search-box" class="search-box">
+        <img src="https://via.placeholder.com/100x100.png?text=Logo" alt="" />
+        <div class="boxes">
+          <p>Search your pokemon</p>
+
+          <div class="input-section">
+            <input
+              placeholder="Name / Pokedex Entry"
+              id="searchElement"
+              type="search"
+            />
+            <button id="searchButtonElement" type="submit">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+
+    <pokemon-list></pokemon-list>
+
+    <div id="listPokemon">
+        <!-- <a href="#test" class="pokemon-card">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+              alt=""
+            />
+            <h5 class="pokemon-id">#001</h5>
+            <h4 class="pokemon-name">Bulbasaur</h4> <div class="pokemon-type">
+              <p class="main-type grass">Grass</p>
+              <p class="main-type poison">Poison</p>
+          </div>
+        </a> -->
+
+
+      </div>
+      <div id="page-navigation">
+        <a class="page-nav prev disabled">Prev</a>
+        <a class="page-nav next disabled">Next</a>
+    </div>
+
+      <div id="overlay"></div>
+      <div class="modal" id="modal">
+        <div class="nav-button">
+            <a href="#previous" class="previous-button"><img src="./assets/next-button.svg" alt=""></a>
+
+            <a href="#next" class="next-button"><img src="./assets/next-button.svg" alt=""></a>
+        </div>
+        <h2 class="modal-pokemon-name">Bulbasaur <span>#001</span></h2>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="" class="pokemon-image">
+
+        <div class="stats-container">
+            <p class="flavor-text">There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger.</p>
+            <div class="stats">
+                <div class="height">
+                    <p class="stats-key">Height</p>
+                    <p class="stats-value">2' 04"</p>
+                </div>
+                <div class="weight">
+                    <p class="stats-key">weight</p>
+                    <p class="stats-value">15.2 lbs</p>
+                </div>
+                <div class="gender">
+                    <p class="stats-key">Gender</p>
+                    <p class="stats-value">"placeholder"</p>
+                </div>
+                <div class="category">
+                    <p class="stats-key">Category</p>
+                    <p class="stats-value">Seed</p>
+                </div>
+                <div class="abilities">
+                    <p class="stats-key">Abilities</p>
+                    <p class="stats-value">Overgrow</p>
+                </div>
+            </div>
+
+            <div class="modal-pokemon-type">
+                <p>Type</p>
+                <div class="types">
+                    <p class="grass">Grass</p>
+                <p class="poison">Poison</p>
+                </div>
+            </div>
+
+            <div class="weaknesses-container">
+                <p>Weaknesses</p>
+                <div class="weaknesses">
+                    <p class="fire">Fire</p>
+                    <p class="psychic">Psychic</p>
+                    <p class="flying">Flying</p>
+                    <p class="ice">Ice</p>
+                </div>
+            </div>
+            <!-- EVOLUTION  LATER -->
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+    <footer>
+
+        <div class="support-container">
+            <img src="https://www.dicoding.com/blog/wp-content/uploads/2014/12/dicoding-header-logo.png" alt="" class="support">
+        </div>
+
+
+        <div class="description"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus beatae exercitationem dolores aperiam at sapiente voluptatum saepe dolorum minima illum, ad nemo, inventore porro! Amet nisi ad accusantium ipsa sint.</p></div>
+
+        <div class="social-media">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat ad dignissimos cupiditate? Dolorem, voluptatem fuga explicabo obcaecati animi quis deserunt laudantium fugiat enim repellat necessitatibus suscipit, rerum ipsam omnis. Earum?</div>
+    </footer>
+
+    <!-- <script type="module" src="app.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/jquery-ui-dist/jquery-ui.min.js"></script> -->
+    <!-- <script src="script/poc.js"></script> -->
+  </body>
+</html>

@@ -1,0 +1,37 @@
+{
+    "name": "dicodex",
+    "version": "1.0.0",
+    "description": "Final Assignment Project For IDCamp x Dicoding Front End Intermediate Class",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start-dev": "webpack serve --config webpack.dev.js",
+        "build": "webpack --config webpack.prod.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/99SOHI/Dicodex.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/99SOHI/Dicodex/issues"
+    },
+    "homepage": "https://github.com/99SOHI/Dicodex#readme",
+    "devDependencies": {
+        "@babel/core": "^7.19.6",
+        "@babel/preset-env": "^7.19.4",
+        "babel-loader": "^8.2.5",
+        "css-loader": "^6.7.1",
+        "html-webpack-plugin": "^5.5.0",
+        "style-loader": "^3.3.1",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-dev-server": "^4.11.1",
+        "webpack-merge": "^5.8.0"
+    },
+    "dependencies": {
+        "jquery": "^3.6.1",
+        "jquery-ui-dist": "^1.13.2"
+    }
+}
