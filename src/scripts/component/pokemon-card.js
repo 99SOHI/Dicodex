@@ -1,3 +1,7 @@
+import {
+    toTitleCase
+} from "../other";
+
 class PokemonCard extends HTMLElement {
     constructor() {
         super();
@@ -59,7 +63,7 @@ class PokemonCard extends HTMLElement {
                   alt=""
                 />
                 <h5 class="pokemon-id">#${this._pokemon.number}</h5>
-                <h4 class="pokemon-name">${this._pokemon.name}</h4>
+                <h4 class="pokemon-name">${toTitleCase(this._pokemon.name)}</h4>
             </a>`
     }
 }

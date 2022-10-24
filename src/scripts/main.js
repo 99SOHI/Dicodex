@@ -1,6 +1,7 @@
 import './component/pokemon-list.js'
 import './component/hero-section.js'
 import './component/page-nav.js'
+import './component/modal.js'
 import DataSource from './data/data-source.js'
 
 const main = () => {
@@ -47,6 +48,7 @@ const main = () => {
 
     // const fallbackResult = (message) => {
     //     pokemonListElement.renderError(message);
+    
 
 }
 

@@ -6,6 +6,10 @@ class ModalCard extends HTMLElement {
         })
     }
 
+    connectedCallback() {
+        this.render();
+    }
+
     set pokemon(pokemon) {
         this._pokemon = pokemon;
         this.render();
@@ -14,6 +18,114 @@ class ModalCard extends HTMLElement {
     render() {
         this.shadowDOM.innerHTML = `
         <sytle>
+        #overlay {
+            z-index: 999;
+            opacity: 1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            transition: 200ms ease-in-out;
+            pointer-events: none;
+          }
+
+          .modal {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            transition: 200ms ease-in-out;
+            border-radius: 10px;
+            z-index: 1000;
+            background-color: #dddfda;
+            width: 100%;
+            max-width: 1300px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+            overflow: auto;
+            overflow-x: hidden;
+          }
+
+          .nav-button {
+            display: flex;
+            flex-wrap: nowrap;
+            width: 90%;
+            gap: 1em;
+            margin: 1em auto -2.5em auto;
+            justify-content: space-evenly;
+          }
+
+          .nav-button > a {
+            width: 40%;
+          }
+
+          .next-button {
+            transform: scaleX(-1);
+          }
+
+          .pokemon-image {
+            text-align: center;
+            width: 30%;
+          }
+
+          .stats-container {
+            display: flex;
+            flex-direction: column;
+            margin: 1em;
+            padding: 1em;
+            gap: 1em;
+            align-items: center;
+          }
+
+          .flavor-text {
+            width: 90%;
+          }
+
+          .stats {
+            height: 100px;
+            width: 90%;
+            padding: 1em;
+            background-color: gray;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 1em;
+            align-self: center;
+          }
+
+          .stats-key {
+            color: white;
+            font-weight: bold;
+          }
+
+          .stats-value {
+            color: black;
+          }
+
+          .modal-pokemon-type,
+          .weaknesses-container {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+          }
+
+          .types,
+          .weaknesses {
+            display: flex;
+            gap: 1em;
+          }
+
+          .types > p,
+          .weaknesses > p {
+            padding: 0.25em 2em;
+            border-radius: 5px;
+          }
+
         </sytle>
 
         <div id="overlay"></div>
@@ -76,4 +188,4 @@ class ModalCard extends HTMLElement {
     }
 }
 
-customElements.define("pokemon-card", PokemonCard)
+customElements.define("modal-card", ModalCard)

@@ -6,7 +6,7 @@ function main() {
 
     let previousPage = ''
     let nextPage = ''
-    
+
     const nextButton = document.querySelector('.next');
     const prevButton = document.querySelector('.prev')
 

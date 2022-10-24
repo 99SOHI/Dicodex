@@ -1,4 +1,9 @@
 import logo from '../../assets/dicedex.svg'
+import $ from 'jquery'
+import '../../../node_modules/jquery-ui-dist/jquery-ui.min.js'
+import {
+    toTitleCase
+} from '../other';
 
 class HeroSection extends HTMLElement {
     constructor() {
@@ -66,19 +71,28 @@ border: 1px solid rgba(251, 203, 12, 0.11);
           </style>
 
 
-        <img src="${logo}" alt="" />
-
-        <div class="boxes">
-          <div class="input-section">
-            <input
-              placeholder="Name / Pokedex Entry"
-              id="searchElement"
-              type="search"
-            />
-            <button id="searchButtonElement" type="submit">Search</button>
-          </div>
-        </div>
+        
         `
+
+        $(function () {
+            let pokemonSearch = $('#searchElement');
+            $(function () {
+                $.getJSON("https://pokeapi.co/api/v2/pokemon-species?limit=100000&offset=0.", function (data) {
+                    let raw = data.results
+                    let pokemonName = []
+                    raw.forEach(pokemon => {
+                        pokemonName.push(toTitleCase(pokemon.name))
+                    });
+                    pokemonSearch.autocomplete({
+                        source: function (request, response) {
+                            var results = $.ui.autocomplete.filter(pokemonName, request.term);
+
+                            response(results.slice(0, 10));
+                        }
+                    });
+                })
+            })
+        });
     }
 }
 
