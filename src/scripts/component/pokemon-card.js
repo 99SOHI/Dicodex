@@ -1,6 +1,7 @@
 import {
     toTitleCase
 } from "../other";
+import './modal-card.js'
 
 class PokemonCard extends HTMLElement {
     constructor() {
@@ -15,7 +16,12 @@ class PokemonCard extends HTMLElement {
         this.render();
     }
 
+    set clickEvent(event) {
+        this._clickEvent = event;
+    }
+
     render() {
+        const pokemonData = this._pokemon
         this.shadowDOM.innerHTML = `
         <style>
 
@@ -65,6 +71,12 @@ class PokemonCard extends HTMLElement {
                 <h5 class="pokemon-id">#${this._pokemon.number}</h5>
                 <h4 class="pokemon-name">${toTitleCase(this._pokemon.name)}</h4>
             </a>`
+
+        this.shadowDOM.querySelector('.pokemon-card').addEventListener('click', function () {
+            const modalElement = document.createElement('modal-card');
+            modalElement.pokemon = pokemonData;
+            document.body.appendChild(modalElement);
+        })
     }
 }
 
