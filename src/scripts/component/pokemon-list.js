@@ -130,11 +130,16 @@ class PokemonList extends HTMLElement {
           }
           </style>`;
 
-        this.shadowDOM.innerHTML += `<h2 class="placeholder">There's no pokemon with the name ${entry}</h2>
+        this.shadowDOM.innerHTML += `<h2 class="placeholder">There's no pokemon with the name/id ${entry}</h2>
         <div class="reset-button"><< Go Back</div>`
 
         const resetButton = this.shadowDOM.querySelector('.reset-button')
         resetButton.addEventListener('click', main)
+
+        const pageNavElement = document.querySelector('page-nav')
+        if (pageNavElement) {
+            pageNavElement.remove()
+        }
     }
 }
 
