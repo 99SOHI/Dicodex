@@ -64,7 +64,6 @@ class PageNav extends HTMLElement {
         `
         const prevButton = this.shadowDOM.querySelector('.prev')
         const nextButton = this.shadowDOM.querySelector('.next')
-        console.log(this._json.previous)
 
         if (this._json.next !== null) {
             nextButton.classList.remove("disabled")

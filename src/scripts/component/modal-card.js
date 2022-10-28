@@ -2,7 +2,7 @@ import './pokemon-card'
 import DataSource from '../data/data-source.js'
 import {
     toTitleCase
-} from '../other';
+} from '../../app';
 
 class ModalCard extends HTMLElement {
     constructor() {
@@ -60,7 +60,6 @@ class ModalCard extends HTMLElement {
         let text = data[0].flavor_text_entries.filter(function (el) {
             return el.language.name == "en"
         })
-        console.log(text)
         let flavorText = text[0].flavor_text.replace('\f', ' ')
         // --
 
@@ -72,72 +71,6 @@ class ModalCard extends HTMLElement {
         data[1].types.forEach(el => {
             return types.push(el.type.name)
         })
-
-
-
-        // const result = await DataSource.getPokemon(data[0].evolution_chain.url)
-        // .then(res => {
-        //     let firstForm = res.chain.species
-        //     let firstEvolution = res.chain.evolves_to[0].species
-        //     let secondEvolution = res.chain.evolves_to[0].evolves_to[0]
-
-
-        //     evoChainData.push({
-        //         id: firstForm.url.slice(42, 46).slice(0, -1),
-        //         name: firstForm.name
-        //     })
-        //     evoChainData.push({
-        //         id: firstEvolution.url.slice(42, 46).slice(0, -1),
-        //         name: firstEvolution.name
-        //     })
-        //     if (secondEvolution) {
-        //         evoChainData.push({
-        //             id: secondEvolution.species.url.slice(42, 46).slice(0, -1),
-        //             name: secondEvolution.species.name
-        //         })
-        //     }
-
-        //         return evoChainData;
-        //     }).catch(error => {
-        //         console.log(error)
-        //     })
-
-
-        // let evolutionChain = async () => {
-        //     await DataSource.getPokemon(data[0].evolution_chain.url)
-        //         .then(res => {
-        //             let firstForm = res.chain.species
-        //             let firstEvolution = res.chain.evolves_to[0].species
-        //             let secondEvolution = res.chain.evolves_to[0].evolves_to[0]
-
-
-        //             evoChainData.push({
-        //                 id: firstForm.url.slice(42, 46).slice(0, -1),
-        //                 name: firstForm.name
-        //             })
-        //             evoChainData.push({
-        //                 id: firstEvolution.url.slice(42, 46).slice(0, -1),
-        //                 name: firstEvolution.name
-        //             })
-        //             if (secondEvolution) {
-        //                 evoChainData.push({
-        //                     id: secondEvolution.species.url.slice(42, 46).slice(0, -1),
-        //                     name: secondEvolution.species.name
-        //                 })
-        //             }
-
-
-        //         }).catch(error => {
-        //             console.log(error)
-        //         })
-        // }
-        // evolutionChain()
-        // console.log("result tanpa indexing")
-        // console.log(evoChainData)
-        // console.log("result dengan indexing")
-        // console.log(evoChainData[0])
-
-
 
         this.shadowDOM.innerHTML = `<style>
         .fire {

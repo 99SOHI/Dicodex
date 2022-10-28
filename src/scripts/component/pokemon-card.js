@@ -1,6 +1,6 @@
 import {
     toTitleCase
-} from "../other";
+} from "../../app";
 import './modal-card.js'
 
 class PokemonCard extends HTMLElement {
