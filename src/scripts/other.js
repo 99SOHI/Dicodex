@@ -1,3 +1,8 @@
+import $ from 'jquery'
+import main from './main.js'
+import '../../node_modules/jquery-ui-dist/jquery-ui.min.js'
+import DataSource from './data/data-source.js';
+
 export function toTitleCase(str) {
     return str.replace("-", " ").replace(
         /\b\w+/g,
@@ -6,3 +11,42 @@ export function toTitleCase(str) {
         }
     );
 }
+
+
+
+$(function () {
+    let pokemonSearch = $('#searchElement');
+    $(function () {
+        $.getJSON("https://pokeapi.co/api/v2/pokemon-species?limit=100000&offset=0.", function (data) {
+            let raw = data.results
+            let pokemonName = []
+            raw.forEach(pokemon => {
+                pokemonName.push(toTitleCase(pokemon.name))
+            });
+            pokemonSearch.autocomplete({
+                source: function (request, response) {
+                    var results = $.ui.autocomplete.filter(pokemonName, request.term);
+
+                    response(results.slice(0, 10));
+                }
+            });
+        })
+    })
+});
+
+const pokemonListElement = document.querySelector('pokemon-list')
+
+const searchButton = async () => {
+    DataSource.getPokemon(`https://pokeapi.co/api/v2/pokemon-species/${document.querySelector('#searchElement').value.toLowerCase()}`).then(src => {
+        pokemonListElement.pokemon = src
+    }).catch(error => {
+        pokemonListElement.renderError(document.querySelector('#searchElement').value)
+        console.log(error)
+    })
+}
+
+const searchInput = document.querySelector('#searchElement').value
+document.querySelector('#searchButtonElement').addEventListener('click', () => {
+    searchButton()
+    console.log(searchInput)
+})

@@ -34,13 +34,27 @@ class PageNav extends HTMLElement {
           }
 
           .page-nav {
+            border: none;
+            background-color: red;
             transition: 100ms;
+            border-radius: 5px;
+            color: white;
+            padding: 1em;
           }
 
           .page-nav:hover {
             scale: 110%;
             cursor: pointer;
             transition: 100ms;
+          }
+
+          .page-nav.disabled {
+            background-color: gray;
+            pointer-events: none;
+          }
+          .page-nav.disabled:hover {
+            cursor: default;
+            scale: 100%;
           }
 
           </style>
@@ -50,12 +64,13 @@ class PageNav extends HTMLElement {
         `
         const prevButton = this.shadowDOM.querySelector('.prev')
         const nextButton = this.shadowDOM.querySelector('.next')
+        console.log(this._json.previous)
 
-        if (this._json.next !== undefined) {
+        if (this._json.next !== null) {
             nextButton.classList.remove("disabled")
         }
 
-        if (this._json.prev !== undefined) {
+        if (this._json.previous !== null) {
             prevButton.classList.remove("disabled")
         }
 

@@ -15,29 +15,46 @@ class ModalCard extends HTMLElement {
     set pokemon(pokemon) {
         const src1 = `https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`
         const src2 = `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-
-
-        const fetch = async (src1, src2) => {
-            DataSource.getPokemon(src1).then(firstResult => {
-                DataSource.getPokemon(src2).then(secondResult => {
-                    let data = [firstResult, secondResult]
-                    this.render(data)
-                })
-            }).catch(error => {
-                console.log(error)
-            })
-        }
-
-        fetch(src1, src2)
+        this.fetch(src1, src2)
         this._pokemon = pokemon
+    }
+
+    set nextPokemon(event) {
+        const src1 = `https://pokeapi.co/api/v2/pokemon-species/${this_pokemon.id}`
     }
 
     set clickEvent(event) {
         this._clickEvent = event;
     }
 
+    async getName(src) {
+        DataSource.getPokemon(src).then(result => {
+
+        })
+    }
+
+    async fetch(src1, src2) {
+        DataSource.getPokemon(src1).then(firstResult => {
+            DataSource.getPokemon(src2).then(secondResult => {
+                let data = [firstResult, secondResult]
+                this.render(data)
+            })
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
     render(data) {
         let name = data[0].name
+        let id = data[0].id
+        let number
+        if (id > 99) {
+            number = id
+        } else if (id > 9) {
+            number = "0" + id
+        } else if (id > 0) {
+            number = "00" + id
+        }
 
         // __
         let text = data[0].flavor_text_entries.filter(function (el) {
@@ -56,36 +73,73 @@ class ModalCard extends HTMLElement {
             return types.push(el.type.name)
         })
 
-        var evoChainUrl = []
-        var evoChainId = []
-        if (data[0].evolution_chain != []) {
-            let evolutionChain = () => {
-                DataSource.getPokemon(data[0].evolution_chain.url).then(res => {
-                    let firstForm = res.chain.species.url
-                    let firstEvolution = res.chain.evolves_to[0].species.url
-                    let secondEvolution = res.chain.evolves_to[0].evolves_to[0]
 
 
-                    evoChainUrl.push(firstForm.slice(42, 46).slice(0, -1))
-                    evoChainUrl.push(firstEvolution.slice(42, 46).slice(0, -1))
-                    if (secondEvolution) {
-                        evoChainUrl.push(secondEvolution.species.url.slice(42, 46).slice(0, -1))
-                    }
+        // const result = await DataSource.getPokemon(data[0].evolution_chain.url)
+        // .then(res => {
+        //     let firstForm = res.chain.species
+        //     let firstEvolution = res.chain.evolves_to[0].species
+        //     let secondEvolution = res.chain.evolves_to[0].evolves_to[0]
 
-                    evoChainUrl.sort();
-                })
-            }
-            evolutionChain()
-            console.log(evoChainUrl)
-        }
+
+        //     evoChainData.push({
+        //         id: firstForm.url.slice(42, 46).slice(0, -1),
+        //         name: firstForm.name
+        //     })
+        //     evoChainData.push({
+        //         id: firstEvolution.url.slice(42, 46).slice(0, -1),
+        //         name: firstEvolution.name
+        //     })
+        //     if (secondEvolution) {
+        //         evoChainData.push({
+        //             id: secondEvolution.species.url.slice(42, 46).slice(0, -1),
+        //             name: secondEvolution.species.name
+        //         })
+        //     }
+
+        //         return evoChainData;
+        //     }).catch(error => {
+        //         console.log(error)
+        //     })
+
+
+        // let evolutionChain = async () => {
+        //     await DataSource.getPokemon(data[0].evolution_chain.url)
+        //         .then(res => {
+        //             let firstForm = res.chain.species
+        //             let firstEvolution = res.chain.evolves_to[0].species
+        //             let secondEvolution = res.chain.evolves_to[0].evolves_to[0]
+
+
+        //             evoChainData.push({
+        //                 id: firstForm.url.slice(42, 46).slice(0, -1),
+        //                 name: firstForm.name
+        //             })
+        //             evoChainData.push({
+        //                 id: firstEvolution.url.slice(42, 46).slice(0, -1),
+        //                 name: firstEvolution.name
+        //             })
+        //             if (secondEvolution) {
+        //                 evoChainData.push({
+        //                     id: secondEvolution.species.url.slice(42, 46).slice(0, -1),
+        //                     name: secondEvolution.species.name
+        //                 })
+        //             }
+
+
+        //         }).catch(error => {
+        //             console.log(error)
+        //         })
+        // }
+        // evolutionChain()
+        // console.log("result tanpa indexing")
+        // console.log(evoChainData)
+        // console.log("result dengan indexing")
+        // console.log(evoChainData[0])
+
 
 
         this.shadowDOM.innerHTML = `<style>
-
-        // <-- COLORS DICTIONARY -->
-        .normal {
-            background-color: #a8a97a ;
-        }
         .fire {
             background-color: #f08030 ;
         }
@@ -99,47 +153,49 @@ class ModalCard extends HTMLElement {
             background-color: #f8d030 ;
         }
         .ice {
-            color: #98d8d8;
+            background-color: #98d8d8;
         }
         .fighting {
             background-color: #c03028 ;
         }
-        .Poison {
+        .poison {
             background-color: #a040a0 ;
         }
-        .Ground {
+        .ground {
             background-color: #e0c068 ;
         }
-        .Flying {
+        .flying {
             background-color: #a890f0 ;
         }
-        .Psychic {
+        .psychic {
             background-color: #f85988 ;
         }
-        .Bug {
+        .bug {
             background-color: #a8b820 ;
         }
-        .Rock {
+        .rock {
             background-color: #b8a039 ;
         }
-        .Ghost {
+        .ghost {
             background-color: #705898 ;
         }
-        .Dark {
+        .dark {
             background-color: #705848 ;
         }
-        .Dragon {
+        .dragon {
             background-color: #7038f8 ;
         }
-        .Steel {
+        .steel {
             background-color: #b8b8d0 ;
         }
-        .Fairy {
+        .fairy {
             background-color: #f0b6bc ;
+        }
+        .normal {
+            background-color: #a8a97a ;
         }
 
 
-        // <-- COLORS DICTIONARY -->
 
         ::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -162,14 +218,13 @@ class ModalCard extends HTMLElement {
         #overlay {
             position: fixed;
             z-index: 999;
-            opacity: 0;
+            opacity: 1;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.7);
             transition: 200ms ease-in-out;
-            pointer-events: none;
           }
 
           .modal {
@@ -181,15 +236,46 @@ class ModalCard extends HTMLElement {
             border-radius: 10px;
             z-index: 1000;
             background-color: #dddfda;
-            width: 100%;
-            max-width: 1000px;
+            width: 800px;
+            max-width: 100%;
             height: 100vh;
+            margin: auto;
+            overflow-x: hidden;
+          }
+
+          .modal-guts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: auto;
-            overflow: auto;
-            overflow-x: hidden;
+            z-index: 1001;
+          }
+
+          .close-button {
+            position: absolute;
+            cursor: pointer;
+            right: 1em;
+            top: 1em;
+            border: 0;
+            background: red;
+            color: white;
+            padding: 5px 10px;
+            font-size: 1.3rem;
+            border-radius: 5px;
+            z-index: 1002;
+            transition: 100ms;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+          }
+
+          .close-button:hover {
+            cursor: pointer;
+            scale: 110%;
+            transition: 100ms;
           }
 
           .nav-button {
@@ -268,17 +354,72 @@ class ModalCard extends HTMLElement {
             padding: 0.25em 2em;
             border-radius: 5px;
           }
+
+          .evolution-chain {
+            margin-top: 32px;
+            gap: 1.5em;
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            background-color: #353535;
+            padding: 1.5em 0em;
+            border-radius: 10px;
+            min-height: 200px;
+            flex-wrap: wrap;
+          }
+
+          .evolution-notice {
+            align-self: center;
+            font-size: 1.5em;
+            color: gray;
+          }
+
+          .evolution {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            align-items: center;
+            justify-content: start;
+            transition: 100ms;
+            cursor: pointer;
+            font-weight: reguler;
+            margin: 10px;
+          }
+
+          .evolution:hover {
+            scale: 110%;
+            transition: 100ms;
+          }
+
+          .evolution > p {
+            color: #d4f4ff;
+            font-weight: normal;
+            margin: 0;
+          }
+
+          .evolution > .pokemon {
+            font-weight: bold;
+            color: white;
+          }
+
+          .evolution > img {
+            padding: 1em;
+            /* From https://css.glass */
+            background: rgba(255, 255, 255, 0.19);
+            border-radius: 50%;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+          }
         </style>
 
         <div id="overlay"></div>
       <div class="modal" id="modal">
-        <div class="nav-button">
-            <a href="#previous" class="previous-button"><img src="./assets/next-button.svg" alt=""></a>
-
-            <a href="#next" class="next-button"><img src="./assets/next-button.svg" alt=""></a>
-        </div>
-        <h2 class="modal-pokemon-name">${toTitleCase(name)} <span>#${this._pokemon.number}</span></h2>
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this._pokemon.id}.png" alt="${toTitleCase(name)}" class="pokemon-image">
+      <div class="close-button"><< Close</div>
+      <div class="modal-guts">
+        <h2 class="modal-pokemon-name">${toTitleCase(name)} <span>#${number}</span></h2>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="${toTitleCase(name)}" class="pokemon-image">
 
         <div class="stats-container">
             <p class="flavor-text">${flavorText}</p>
@@ -288,7 +429,7 @@ class ModalCard extends HTMLElement {
                     <p class="stats-value">${height}</p>
                 </div>
                 <div class="weight">
-                    <p class="stats-key">weight</p>
+                    <p class="stats-key">Weight</p>
                     <p class="stats-value">${weight}</p>
                 </div>
                 <div class="abilities">
@@ -303,20 +444,128 @@ class ModalCard extends HTMLElement {
                 </div>
             </div>
 
-            <!-- EVOLUTION  LATER -->
+            <div class="evolution-chain"></div>
+
         </div>
+      </div>
+
       </div>`
 
         let typeElement = this.shadowDOM.querySelector('.types')
-        console.log(typeElement)
         types.forEach(t => {
             typeElement.innerHTML += `
-        <p class="${toTitleCase(t)}">${toTitleCase(t)}</p>
+        <p class="${t}">${toTitleCase(t)}</p>
         `
         })
-        console.log(types)
-
         typeElement.append()
+
+        let evoChainElement = this.shadowDOM.querySelector('.evolution-chain')
+
+        const evolutionResult = async () => {
+            let evoChainData = []
+            try {
+                const result = await DataSource.getPokemon(data[0].evolution_chain.url);
+
+                console.log(result.chain.evolves_to)
+
+                if (result.chain.evolves_to.length) {
+                    let firstForm = result.chain.species
+                    let firstEvolution = result.chain.evolves_to[0].species
+                    let secondEvolution = result.chain.evolves_to[0].evolves_to[0]
+
+                    evoChainData.push({
+                        id: firstForm.url.slice(42, 46).slice(0, -1),
+                        name: firstForm.name
+                    })
+                    evoChainData.push({
+                        id: firstEvolution.url.slice(42, 46).slice(0, -1),
+                        name: firstEvolution.name
+                    })
+                    if (secondEvolution) {
+                        evoChainData.push({
+                            id: secondEvolution.species.url.slice(42, 46).slice(0, -1),
+                            name: secondEvolution.species.name
+                        })
+                    }
+                    console.log("mashoook")
+                    return evoChainData
+                } else {
+                    return evoChainData
+                }
+            } catch (error) {
+                throw new Error(error)
+            }
+        }
+
+
+        evolutionResult()
+            .then(result => {
+                console.log(result)
+                if (result.length) {
+                    evoChainElement.innerHTML = `<div class="base evolution">
+                    <p>Base Pokemon</p>
+                    <p class="pokemon">${toTitleCase(result[0].name)}</p>
+                    <img
+                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[0].id)}.png"
+                  alt=""
+                />
+                    </div>
+
+                    <div class="first evolution">
+                    <p>First Evolution</p>
+                    <p class="pokemon">${toTitleCase(result[1].name)}</p>
+                    <img
+                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[1].id)}.png"
+                  alt=""
+                />
+                    </div>
+                    `
+
+
+
+                    if (result[2]) {
+                        evoChainElement.innerHTML += `
+                        <div class="second evolution">
+                            <p>Second Evolution</p>
+                            <p class="pokemon">${toTitleCase(result[2].name)}</p>
+                            <img
+                            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[2].id)}.png" alt=""/>
+                        </div>
+                        `
+                    }
+                    evoChainElement.append()
+
+                    const base = this.shadowDOM.querySelector('.base');
+                    const first = this.shadowDOM.querySelector('.first');
+                    base.addEventListener('click', () => {
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].id}`)
+                    })
+                    first.addEventListener('click', () => {
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].id}`)
+                    })
+                    if (result[2]) {
+                        const second = this.shadowDOM.querySelector('.second');
+                        second.addEventListener('click', () => {
+                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].id}`)
+                        })
+                    }
+                } else {
+                    evoChainElement.innerHTML += `<p class="evolution-notice">This Pokemon Doesn't Evolve :(</p>`
+                }
+
+            }).catch(error => {
+                console.log(error);
+            })
+
+        const closeButton = this.shadowDOM.querySelector('.close-button')
+        const overlay = this.shadowDOM.querySelector('#overlay')
+
+        closeButton.addEventListener('click', () => {
+            this.shadowDOM.innerHTML = ``
+        })
+        overlay.addEventListener('click', () => {
+            this.shadowDOM.innerHTML = ``
+        })
     }
 }
 
