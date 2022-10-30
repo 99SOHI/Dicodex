@@ -27,9 +27,9 @@ class PokemonCard extends HTMLElement {
     render() {
         let pokemonData = this._pokemon
 
-        if (this._pokemon.varieties == undefined) {
+        if (pokemonData.varieties == undefined) {
             const getPokemonData = async () => {
-                DataSource.getPokemon(`https://pokeapi.co/api/v2/pokemon-species/${this._pokemon.name}`).then(result => {
+                DataSource.getPokemon(`https://pokeapi.co/api/v2/pokemon-species/${pokemonData.name}`).then(result => {
                     pokemonData = result
                 }).catch(() => {
                     throw new Error()
@@ -38,7 +38,6 @@ class PokemonCard extends HTMLElement {
 
             getPokemonData()
         }
-
 
         this.shadowDOM.innerHTML = `
         <style>
@@ -94,7 +93,8 @@ class PokemonCard extends HTMLElement {
                 <h4 class="pokemon-name">${toTitleCase(this._pokemon.name)}</h4>
         </div>`
 
-        this.shadowDOM.querySelector('.pokemon-card').addEventListener('click', function () {
+        this.shadowDOM.querySelector('.pokemon-card').addEventListener('click', async function () {
+
             const modalElement = document.querySelector('modal-card');
 
             modalElement.pokemon = pokemonData;

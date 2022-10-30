@@ -24,8 +24,7 @@ $(function () {
                     let results = $.ui.autocomplete.filter(pokemonName, request.term);
 
                     response(results.slice(0, 10));
-                },
-                minLength: 2
+                }
             });
         });
     });

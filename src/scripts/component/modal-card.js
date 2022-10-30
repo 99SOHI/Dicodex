@@ -478,7 +478,7 @@ class ModalCard extends HTMLElement {
                     return evoChainData
                 }
             } catch (error) {
-                throw new Error()
+                console.log(error)
             }
         }
 
@@ -516,18 +516,18 @@ class ModalCard extends HTMLElement {
                     const first = this.shadowDOM.querySelector('.first');
 
                     base.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].varieties[0].pokemon.name}`)
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].name}`)
                     })
 
                     first.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].varieties[0].pokemon.name}`)
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].name}`)
                     })
 
                     if (result[2]) {
                         const second = this.shadowDOM.querySelector('.second');
 
                         second.addEventListener('click', () => {
-                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].varieties[0].pokemon.name}`)
+                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].name}`)
                         })
                     }
 
