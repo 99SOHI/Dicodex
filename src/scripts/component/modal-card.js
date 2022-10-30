@@ -469,6 +469,7 @@ class ModalCard extends HTMLElement {
                             name: secondEvolution.species.name
                         })
                     }
+
                     return evoChainData
                 } else {
                     return evoChainData
@@ -486,19 +487,13 @@ class ModalCard extends HTMLElement {
                     <div class="base evolution">
                     <p>Base Pokemon</p>
                     <p class="pokemon">${toTitleCase(result[0].name)}</p>
-                    <img
-                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[0].id)}.png"
-                  alt=""
-                />
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[0].id)}.png" alt="" />
                     </div>
 
                     <div class="first evolution">
                     <p>First Evolution</p>
                     <p class="pokemon">${toTitleCase(result[1].name)}</p>
-                    <img
-                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[1].id)}.png"
-                  alt=""
-                />
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[1].id)}.png" alt="" />
                     </div>
                     `
 
@@ -507,8 +502,7 @@ class ModalCard extends HTMLElement {
                         <div class="second evolution">
                             <p>Second Evolution</p>
                             <p class="pokemon">${toTitleCase(result[2].name)}</p>
-                            <img
-                            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[2].id)}.png" alt=""/>
+                            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[2].id)}.png" alt=""/>
                         </div>
                         `
                     }
@@ -519,18 +513,18 @@ class ModalCard extends HTMLElement {
                     const first = this.shadowDOM.querySelector('.first');
 
                     base.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].id}`)
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].name}`)
                     })
 
                     first.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].id}`)
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].name}`)
                     })
 
                     if (result[2]) {
                         const second = this.shadowDOM.querySelector('.second');
 
                         second.addEventListener('click', () => {
-                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].id}`)
+                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].name}`)
                         })
                     }
 
