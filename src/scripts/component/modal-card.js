@@ -1,6 +1,7 @@
 import './pokemon-card'
 import DataSource from '../data/data-source.js'
 import {
+    getIdFromUrl,
     numbering,
     toTitleCase
 } from '../../app';
@@ -452,19 +453,19 @@ class ModalCard extends HTMLElement {
                     let secondEvolution = result.chain.evolves_to[0].evolves_to[0]
 
                     evoChainData.push({
-                        id: firstForm.url.slice(42, 46).slice(0, -1),
+                        id: getIdFromUrl(firstForm.url),
                         name: firstForm.name
                     })
 
                     evoChainData.push({
-                        id: firstEvolution.url.slice(42, 46).slice(0, -1),
+                        id: getIdFromUrl(firstEvolution.url),
                         name: firstEvolution.name
                     })
 
                     if (secondEvolution) {
 
                         evoChainData.push({
-                            id: secondEvolution.species.url.slice(42, 46).slice(0, -1),
+                            id: getIdFromUrl(secondEvolution.species.url),
                             name: secondEvolution.species.name
                         })
                     }

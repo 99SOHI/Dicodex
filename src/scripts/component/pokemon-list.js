@@ -2,6 +2,7 @@ import './pokemon-card.js'
 import '../data/data-source.js'
 import main from '../main.js';
 import {
+    getIdFromUrl,
     numbering
 } from '../../app.js';
 
@@ -31,7 +32,7 @@ class PokemonList extends HTMLElement {
     render() {
         this.shadowDOM.innerHTML = ``;
         this._pokemons.forEach(pokemon => {
-            pokemon.id = pokemon.url.slice(42, 46).slice(0, -1)
+            pokemon.id = getIdFromUrl(pokemon.url)
 
             if (pokemon.id.length > 2) {
                 pokemon.number = pokemon.id

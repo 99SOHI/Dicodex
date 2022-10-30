@@ -82,3 +82,8 @@ export function numbering(id) {
 
     return number
 }
+
+export function getIdFromUrl(url) {
+    let slicedUrl = url.slice(42, 46).slice(0, -1)
+    return slicedUrl
+}
