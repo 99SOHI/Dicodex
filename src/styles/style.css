@@ -170,6 +170,10 @@ html .ui-autocomplete {
   display: none;
 }
 
+footer > p > a:hover {
+  color: #ffce0b;
+}
+
 @media only screen and (max-width: 380px) {
   .input-section {
     flex-direction: column;
