@@ -4,9 +4,9 @@ import './component/modal-card.js'
 import DataSource from './data/data-source.js'
 
 const main = () => {
-    var src = "https://pokeapi.co/api/v2/pokemon-species"
-    var next = ""
-    var prev = ""
+    let src = "https://pokeapi.co/api/v2/pokemon-species"
+    let next = ""
+    let prev = ""
     const pokemonListElement = document.querySelector('pokemon-list')
     const pageNavElement = document.querySelector('page-nav');
 
@@ -45,7 +45,6 @@ const main = () => {
 
     pageNavElement.nextPage = nextPageL
     pageNavElement.prevPage = prevPageL
-
 
     // Initial Render
     render(src);

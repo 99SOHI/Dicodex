@@ -99,7 +99,7 @@ class PokemonList extends HTMLElement {
 
             }
         } else {
-            searchResult.id.length // sengaja biar function-nya error kalo data yang diterima ga sesuai, solusi sementara
+            throw new Error()
         }
     }
 

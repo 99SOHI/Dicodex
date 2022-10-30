@@ -13,10 +13,11 @@ class ModalCard extends HTMLElement {
     }
 
     set pokemon(pokemon) {
+        this._pokemon = pokemon
+
         const src1 = `https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`
         const src2 = `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
         this.fetch(src1, src2)
-        this._pokemon = pokemon
     }
 
     set nextPokemon(event) {
@@ -45,8 +46,8 @@ class ModalCard extends HTMLElement {
     }
 
     render(data) {
-        let name = data[0].name
-        let id = data[0].id
+        const name = data[0].name
+        const id = data[0].id
         let number
         if (id > 99) {
             number = id
@@ -60,14 +61,15 @@ class ModalCard extends HTMLElement {
         let text = data[0].flavor_text_entries.filter(function (el) {
             return el.language.name == "en"
         })
-        let flavorText = text[0].flavor_text.replace('\f', ' ')
+
+        const flavorText = text[0].flavor_text.replace('\f', ' ')
         // --
 
-        let height = data[1].height * 10 + " cm"
-        let weight = data[1].weight / 10 + " kg"
-        let abilities = data[1].abilities[0].ability.name
+        const height = data[1].height * 10 + " cm"
+        const weight = data[1].weight / 10 + " kg"
+        const abilities = data[1].abilities[0].ability.name
 
-        let types = []
+        const types = []
         data[1].types.forEach(el => {
             return types.push(el.type.name)
         })
@@ -384,7 +386,8 @@ class ModalCard extends HTMLElement {
 
       </div>`
 
-        let typeElement = this.shadowDOM.querySelector('.types')
+        const typeElement = this.shadowDOM.querySelector('.types')
+
         types.forEach(t => {
             typeElement.innerHTML += `
         <p class="${t}">${toTitleCase(t)}</p>
@@ -392,7 +395,7 @@ class ModalCard extends HTMLElement {
         })
         typeElement.append()
 
-        let evoChainElement = this.shadowDOM.querySelector('.evolution-chain')
+        const evoChainElement = this.shadowDOM.querySelector('.evolution-chain')
 
         const evolutionResult = async () => {
             let evoChainData = []
@@ -420,7 +423,6 @@ class ModalCard extends HTMLElement {
                             name: secondEvolution.species.name
                         })
                     }
-                    console.log("mashoook")
                     return evoChainData
                 } else {
                     return evoChainData
@@ -433,7 +435,6 @@ class ModalCard extends HTMLElement {
 
         evolutionResult()
             .then(result => {
-                console.log(result)
                 if (result.length) {
                     evoChainElement.innerHTML = `<div class="base evolution">
                     <p>Base Pokemon</p>
@@ -453,8 +454,6 @@ class ModalCard extends HTMLElement {
                 />
                     </div>
                     `
-
-
 
                     if (result[2]) {
                         evoChainElement.innerHTML += `
