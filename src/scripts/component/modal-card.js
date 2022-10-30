@@ -18,7 +18,7 @@ class ModalCard extends HTMLElement {
         this._pokemon = pokemon
 
         const src1 = `https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`
-        const src2 = `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+        const src2 = `https://pokeapi.co/api/v2/pokemon/${pokemon.varieties[0].pokemon.name}`
         this.fetch(src1, src2)
     }
 
@@ -443,39 +443,42 @@ class ModalCard extends HTMLElement {
         const evolutionResult = async () => {
             let evoChainData = []
             try {
-                const result = await DataSource.getPokemon(data[0].evolution_chain.url);
+                if (data[0].evolution_chain != null) {
+                    const result = await DataSource.getPokemon(data[0].evolution_chain.url);
+                    if (result.chain.evolves_to.length) {
+                        let firstForm = result.chain.species
 
-                if (result.chain.evolves_to.length) {
-                    let firstForm = result.chain.species
+                        let firstEvolution = result.chain.evolves_to[0].species
 
-                    let firstEvolution = result.chain.evolves_to[0].species
-
-                    let secondEvolution = result.chain.evolves_to[0].evolves_to[0]
-
-                    evoChainData.push({
-                        id: getIdFromUrl(firstForm.url),
-                        name: firstForm.name
-                    })
-
-                    evoChainData.push({
-                        id: getIdFromUrl(firstEvolution.url),
-                        name: firstEvolution.name
-                    })
-
-                    if (secondEvolution) {
+                        let secondEvolution = result.chain.evolves_to[0].evolves_to[0]
 
                         evoChainData.push({
-                            id: getIdFromUrl(secondEvolution.species.url),
-                            name: secondEvolution.species.name
+                            id: getIdFromUrl(firstForm.url),
+                            name: firstForm.name
                         })
-                    }
 
-                    return evoChainData
+                        evoChainData.push({
+                            id: getIdFromUrl(firstEvolution.url),
+                            name: firstEvolution.name
+                        })
+
+                        if (secondEvolution) {
+
+                            evoChainData.push({
+                                id: getIdFromUrl(secondEvolution.species.url),
+                                name: secondEvolution.species.name
+                            })
+                        }
+
+                        return evoChainData
+                    } else {
+                        return evoChainData
+                    }
                 } else {
                     return evoChainData
                 }
             } catch (error) {
-                throw new Error(error)
+                throw new Error()
             }
         }
 
@@ -513,18 +516,18 @@ class ModalCard extends HTMLElement {
                     const first = this.shadowDOM.querySelector('.first');
 
                     base.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].name}`)
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].varieties[0].pokemon.name}`)
                     })
 
                     first.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].name}`)
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].varieties[0].pokemon.name}`)
                     })
 
                     if (result[2]) {
                         const second = this.shadowDOM.querySelector('.second');
 
                         second.addEventListener('click', () => {
-                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].name}`)
+                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].varieties[0].pokemon.name}`)
                         })
                     }
 

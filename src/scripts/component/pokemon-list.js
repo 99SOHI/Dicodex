@@ -34,13 +34,7 @@ class PokemonList extends HTMLElement {
         this._pokemons.forEach(pokemon => {
             pokemon.id = getIdFromUrl(pokemon.url)
 
-            if (pokemon.id.length > 2) {
-                pokemon.number = pokemon.id
-            } else if (pokemon.id.length > 1) {
-                pokemon.number = "0" + pokemon.id
-            } else {
-                pokemon.number = "00" + pokemon.id
-            }
+            pokemon.number = numbering(pokemon.id)
 
             const pokemonCardElement = document.createElement('pokemon-card');
             pokemonCardElement.pokemon = pokemon;
@@ -51,6 +45,7 @@ class PokemonList extends HTMLElement {
 
     renderOne(searchResult) {
         this.shadowDOM.innerHTML = ``
+
         this.shadowDOM.innerHTML += `<style>
         :host {
             display: flex;
@@ -72,6 +67,7 @@ class PokemonList extends HTMLElement {
             cursor: pointer;
             transition: 100ms;
         }
+
         </style>`;
 
 
@@ -151,7 +147,7 @@ class PokemonList extends HTMLElement {
 
             const pageNav = document.createElement('page-nav')
             const bottomHr = document.querySelector('#bottom-hr');
-            let parentDiv = bottomHr.parentNode
+            const parentDiv = bottomHr.parentNode
             parentDiv.insertBefore(pageNav, bottomHr)
 
         }

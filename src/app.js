@@ -47,7 +47,7 @@ export function toTitleCase(str) {
 const pokemonListElement = document.querySelector('pokemon-list');
 
 const searchButton = async () => {
-    DataSource.getPokemon(`https://pokeapi.co/api/v2/pokemon-species/${document.querySelector('#searchElement').value.toLowerCase()}`).then(src => {
+    DataSource.getPokemon(`https://pokeapi.co/api/v2/pokemon-species/${document.querySelector('#searchElement').value.toLowerCase().replace(' ', '-')}`).then(src => {
         pokemonListElement.pokemon = src;
     }).catch(() => {
         pokemonListElement.renderError(document.querySelector('#searchElement').value);
@@ -57,7 +57,6 @@ const searchButton = async () => {
 const searchInput = document.querySelector('#searchElement').value;
 document.querySelector('#searchButtonElement').addEventListener('click', () => {
     searchButton();
-    console.log(searchInput);
 });
 
 

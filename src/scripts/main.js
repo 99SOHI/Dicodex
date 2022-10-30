@@ -26,8 +26,8 @@ const main = () => {
                     next = src.next
                 }
             })
-            .catch(error => {
-                console.log(error)
+            .catch(() => {
+                throw new Error()
             })
     }
 
