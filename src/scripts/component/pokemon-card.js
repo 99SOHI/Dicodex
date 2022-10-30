@@ -1,6 +1,10 @@
 import {
+    get
+} from "jquery";
+import {
     toTitleCase
 } from "../../app";
+import DataSource from "../data/data-source";
 import './modal-card.js'
 
 class PokemonCard extends HTMLElement {
@@ -21,7 +25,21 @@ class PokemonCard extends HTMLElement {
     }
 
     render() {
-        const pokemonData = this._pokemon
+        let pokemonData = this._pokemon
+
+        if (this._pokemon.varieties == undefined) {
+            const getPokemonData = async () => {
+                DataSource.getPokemon(`https://pokeapi.co/api/v2/pokemon-species/${this._pokemon.name}`).then(result => {
+                    pokemonData = result
+                }).catch(() => {
+                    throw new Error()
+                })
+            }
+
+            getPokemonData()
+        }
+
+
         this.shadowDOM.innerHTML = `
         <style>
 
