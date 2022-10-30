@@ -3,6 +3,7 @@ import './styles/style.css'
 import $ from 'jquery'
 import '../node_modules/jquery-ui-dist/jquery-ui.min.js'
 import DataSource from './scripts/data/data-source.js';
+import logo from './assets/dicedex.svg'
 
 document.addEventListener('DOMContentLoaded', main);
 
@@ -55,3 +56,10 @@ document.querySelector('#searchButtonElement').addEventListener('click', () => {
     searchButton()
     console.log(searchInput)
 })
+
+// Import & Append Logo
+const heroSection = document.querySelector('.hero-section')
+const img = document.createElement('img')
+img.src = logo
+heroSection.insertBefore(img, heroSection.children[0])
+img.classList.add('logo')

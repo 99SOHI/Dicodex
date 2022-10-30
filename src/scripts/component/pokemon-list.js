@@ -88,8 +88,15 @@ class PokemonList extends HTMLElement {
 
             resetButton.addEventListener('click', main)
             const pageNavElement = document.querySelector('page-nav')
+
             if (pageNavElement) {
                 pageNavElement.remove()
+
+                const pageNav = document.createElement('page-nav')
+                const bottomHr = document.querySelector('#bottom-hr');
+                let parentDiv = bottomHr.parentNode
+                parentDiv.insertBefore(pageNav, bottomHr)
+
             }
         } else {
             searchResult.id.length // sengaja biar function-nya error kalo data yang diterima ga sesuai, solusi sementara
@@ -139,6 +146,12 @@ class PokemonList extends HTMLElement {
         const pageNavElement = document.querySelector('page-nav')
         if (pageNavElement) {
             pageNavElement.remove()
+
+            const pageNav = document.createElement('page-nav')
+            const bottomHr = document.querySelector('#bottom-hr');
+            let parentDiv = bottomHr.parentNode
+            parentDiv.insertBefore(pageNav, bottomHr)
+
         }
     }
 }
