@@ -29,11 +29,10 @@ class PokemonCard extends HTMLElement {
             margin: 0;
         }
 
-        a {
+        .pokemon-card {
             color: inherit;
             text-decoration: none;
             display: flex;
-            height: 120px;
             flex-direction: column;
             align-items: start;
             justify-content: center;
@@ -49,32 +48,39 @@ class PokemonCard extends HTMLElement {
             transition: 100ms;
           }
 
-          a:hover {
+          .pokemon-card:hover {
+            cursor: pointer;
             scale: 110%;
             transition: 100ms;
           }
 
-          a > img {
-            align-self: center;
+          .image-container {
+
+          }
+
+          img {
             border-radius: 10px;
             background-color: #f3ece6;
             margin-bottom: 0.25em;
-            padding: 0 54px;
+            padding: 0 1em;
+            align-self: center;
+            max-width: 100%;
+            image-rendering: pixelated
           }
         </style>
 
-        <a href="#test" class="pokemon-card">
-                <img
-                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this._pokemon.id}.png"
-                  alt=""
-                />
+        <div class="pokemon-card">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this._pokemon.id}.png" alt=""/>
+
                 <h5 class="pokemon-id">#${this._pokemon.number}</h5>
                 <h4 class="pokemon-name">${toTitleCase(this._pokemon.name)}</h4>
-            </a>`
+        </div>`
 
         this.shadowDOM.querySelector('.pokemon-card').addEventListener('click', function () {
             const modalElement = document.createElement('modal-card');
+
             modalElement.pokemon = pokemonData;
+
             document.body.appendChild(modalElement);
         })
     }

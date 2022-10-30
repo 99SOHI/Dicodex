@@ -1,6 +1,9 @@
 import './pokemon-card.js'
 import '../data/data-source.js'
 import main from '../main.js';
+import {
+    numbering
+} from '../../app.js';
 
 class PokemonList extends HTMLElement {
     constructor() {
@@ -69,14 +72,12 @@ class PokemonList extends HTMLElement {
             transition: 100ms;
         }
         </style>`;
+
+
+
         if (searchResult.id != undefined) {
-            if (searchResult.id > 99) {
-                searchResult.number = searchResult.id
-            } else if (searchResult.id > 9) {
-                searchResult.number = "0" + searchResult.id
-            } else if (searchResult.id > 0) {
-                searchResult.number = "00" + searchResult.id
-            }
+
+            searchResult.number = numbering(searchResult.id)
 
             const pokemonCardElement = document.createElement('pokemon-card');
             pokemonCardElement.pokemon = searchResult;

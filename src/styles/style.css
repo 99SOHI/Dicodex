@@ -14,7 +14,7 @@ a {
   align-items: center;
   padding: 24px;
   gap: 1em;
-  margin: 2em;
+  margin: 2em auto;
 }
 
 .hero-section > img {
@@ -35,7 +35,7 @@ a {
 }
 
 .input-section {
-  padding: 1em 2em;
+  padding: 0.5em 1em;
   border-style: none;
   display: flex;
   justify-content: center;
@@ -52,12 +52,21 @@ button {
   box-shadow: none;
 }
 
-button {
-  background-color: white;
-}
-
 input {
   flex-grow: 1;
+}
+
+#searchButtonElement {
+  background-color: white;
+  color: black;
+  transition: 100ms;
+}
+
+#searchButtonElement:hover {
+  cursor: pointer;
+  background-color: #3269b1;
+  color: white;
+  transition: 100ms;
 }
 
 /*  ============================== */
@@ -159,4 +168,20 @@ html .ui-autocomplete {
 
 .ui-helper-hidden-accessible {
   display: none;
+}
+
+@media only screen and (max-width: 380px) {
+  .input-section {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #searchButtonElement {
+    width: 60%;
+  }
+
+  #searchElement {
+    text-align: center;
+  }
 }

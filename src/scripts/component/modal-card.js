@@ -1,6 +1,7 @@
 import './pokemon-card'
 import DataSource from '../data/data-source.js'
 import {
+    numbering,
     toTitleCase
 } from '../../app';
 
@@ -48,27 +49,18 @@ class ModalCard extends HTMLElement {
     render(data) {
         const name = data[0].name
         const id = data[0].id
-        let number
-        if (id > 99) {
-            number = id
-        } else if (id > 9) {
-            number = "0" + id
-        } else if (id > 0) {
-            number = "00" + id
-        }
+        const number = numbering(id)
 
         // __
         let text = data[0].flavor_text_entries.filter(function (el) {
             return el.language.name == "en"
         })
-
         const flavorText = text[0].flavor_text.replace('\f', ' ')
         // --
 
         const height = data[1].height * 10 + " cm"
         const weight = data[1].weight / 10 + " kg"
         const abilities = data[1].abilities[0].ability.name
-
         const types = []
         data[1].types.forEach(el => {
             return types.push(el.type.name)
@@ -194,9 +186,9 @@ class ModalCard extends HTMLElement {
           .close-button {
             position: absolute;
             cursor: pointer;
-            right: 1em;
-            top: 1em;
             border: 0;
+            top: 1em;
+            right: 1em;
             background: red;
             color: white;
             padding: 5px 10px;
@@ -211,6 +203,10 @@ class ModalCard extends HTMLElement {
             cursor: pointer;
             scale: 110%;
             transition: 100ms;
+          }
+
+          .close-button > p {
+            margin: 0;
           }
 
           .nav-button {
@@ -344,29 +340,75 @@ class ModalCard extends HTMLElement {
             border-radius: 50%;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5px);
+            image-rendering: pixelated;
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
+          }
+
+          .evolution-notice {
+            padding: 1em;
+          }
+
+          @media only screen and (max-width: 800px) {
+            .modal {
+                border-radius: 0;
+            }
+
+            .close-button {
+                bottom: 0;
+                top: auto;
+                right: auto;
+                width: 100%;
+                height: 32px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+
+              .close-button:hover {
+                scale: 100%;
+                background-color: #ffce0b;
+                color: white;
+              }
+
+              .evolution-chain {
+                margin-bottom: 5vh;
+              }
+
+              .stats {
+                height: auto;
+              }
+          }
+
+          @media only screen and (max-width: 500px) {
+
           }
         </style>
 
         <div id="overlay"></div>
-      <div class="modal" id="modal">
-      <div class="close-button"><< Close</div>
-      <div class="modal-guts">
+
+        <div class="modal" id="modal">
+        <div class="close-button"><p><< Close</p></div>
+
+        <div class="modal-guts">
         <h2 class="modal-pokemon-name">${toTitleCase(name)} <span>#${number}</span></h2>
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="${toTitleCase(name)}" class="pokemon-image">
 
         <div class="stats-container">
             <p class="flavor-text">${flavorText}</p>
+
             <div class="stats">
                 <div class="height">
                     <p class="stats-key">Height</p>
                     <p class="stats-value">${height}</p>
                 </div>
+
                 <div class="weight">
                     <p class="stats-key">Weight</p>
                     <p class="stats-value">${weight}</p>
                 </div>
+
                 <div class="abilities">
                     <p class="stats-key">Abilities</p>
                     <p class="stats-value">${toTitleCase(abilities)}</p>
@@ -402,22 +444,25 @@ class ModalCard extends HTMLElement {
             try {
                 const result = await DataSource.getPokemon(data[0].evolution_chain.url);
 
-                console.log(result.chain.evolves_to)
-
                 if (result.chain.evolves_to.length) {
                     let firstForm = result.chain.species
+
                     let firstEvolution = result.chain.evolves_to[0].species
+
                     let secondEvolution = result.chain.evolves_to[0].evolves_to[0]
 
                     evoChainData.push({
                         id: firstForm.url.slice(42, 46).slice(0, -1),
                         name: firstForm.name
                     })
+
                     evoChainData.push({
                         id: firstEvolution.url.slice(42, 46).slice(0, -1),
                         name: firstEvolution.name
                     })
+
                     if (secondEvolution) {
+
                         evoChainData.push({
                             id: secondEvolution.species.url.slice(42, 46).slice(0, -1),
                             name: secondEvolution.species.name
@@ -436,7 +481,8 @@ class ModalCard extends HTMLElement {
         evolutionResult()
             .then(result => {
                 if (result.length) {
-                    evoChainElement.innerHTML = `<div class="base evolution">
+                    evoChainElement.innerHTML = `
+                    <div class="base evolution">
                     <p>Base Pokemon</p>
                     <p class="pokemon">${toTitleCase(result[0].name)}</p>
                     <img
@@ -468,21 +514,28 @@ class ModalCard extends HTMLElement {
                     evoChainElement.append()
 
                     const base = this.shadowDOM.querySelector('.base');
+
                     const first = this.shadowDOM.querySelector('.first');
+
                     base.addEventListener('click', () => {
                         this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].id}`)
                     })
+
                     first.addEventListener('click', () => {
                         this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].id}`)
                     })
+
                     if (result[2]) {
                         const second = this.shadowDOM.querySelector('.second');
+
                         second.addEventListener('click', () => {
                             this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].id}`)
                         })
                     }
+
                 } else {
-                    evoChainElement.innerHTML += `<p class="evolution-notice">This Pokemon Doesn't Evolve :(</p>`
+                    evoChainElement.innerHTML += `
+                    <p class="evolution-notice">This Pokemon Doesn't Evolve :(</p>`
                 }
 
             }).catch(error => {
@@ -490,6 +543,7 @@ class ModalCard extends HTMLElement {
             })
 
         const closeButton = this.shadowDOM.querySelector('.close-button')
+
         const overlay = this.shadowDOM.querySelector('#overlay')
 
         closeButton.addEventListener('click', () => {
