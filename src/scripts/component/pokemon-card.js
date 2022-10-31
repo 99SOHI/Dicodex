@@ -77,7 +77,7 @@ class PokemonCard extends HTMLElement {
         </div>`;
 
         this.shadowDOM.querySelector('.pokemon-card').addEventListener('click', function () {
-            const modalElement = document.createElement('modal-card');
+            const modalElement = document.querySelector('modal-card');
 
             modalElement.pokemon = pokemonData;
 

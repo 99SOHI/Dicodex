@@ -6,6 +6,8 @@ import {
     toTitleCase
 } from '../../app';
 
+import btn1 from '../../assets/btn.svg'
+
 class ModalCard extends HTMLElement {
     constructor() {
         super();
@@ -21,20 +23,6 @@ class ModalCard extends HTMLElement {
 
         this.fetch(src);
     }
-
-    // set nextPokemon(event) {
-    //     const src = `https://pokeapi.co/api/v2/pokemon-species/${this._pokemon.id}`;
-    // }
-
-    // set clickEvent(event) {
-    //     this._clickEvent = event;
-    // }
-
-    // async getName(src) {
-    //     DataSource.getPokemon(src).then(result => {
-
-    //     });
-    // }
 
     async fetch(src) {
         DataSource.getPokemon(src).then(firstResult => {
@@ -163,10 +151,10 @@ class ModalCard extends HTMLElement {
             transition: 200ms ease-in-out;
             border-radius: 10px;
             z-index: 1000;
-            background-color: #dddfda;
+            background-color: #fffefc;
             width: 800px;
             max-width: 100%;
-            height: 100vh;
+            height: 95vh;
             margin: auto;
             overflow-x: hidden;
           }
@@ -298,6 +286,7 @@ class ModalCard extends HTMLElement {
             border-radius: 10px;
             min-height: 200px;
             flex-wrap: wrap;
+            margin-bottom: 2em;
           }
 
           .evolution-notice {
@@ -349,9 +338,54 @@ class ModalCard extends HTMLElement {
             padding: 1em;
           }
 
+          .modal-nav {
+            display: flex;
+            justify-content: space-around;
+          }
+
+          .modal-nav > img {
+            width: 30%;
+            max-width: 320px;
+            margin: 1em;
+          }
+
+          .modal-nav > img:hover {
+            cursor: pointer;
+            scale: 110%
+          }
+
+          .disabled:hover {
+            cursor: normal;
+            scale: 100%;
+          }
+
+          .disabled {
+            pointer-events: none;
+            filter: invert(53%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(94%) contrast(82%);
+          }
+
+          .close-button {
+            bottom: 0;
+            top: auto;
+            right: auto;
+            width: 100%;
+            height: 32px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .close-button:hover {
+            scale: 100%;
+            background-color: #ffce0b;
+            color: white;
+          }
+
           @media only screen and (max-width: 800px) {
             .modal {
                 border-radius: 0;
+                height: 100vh;
             }
 
             .close-button {
@@ -372,10 +406,6 @@ class ModalCard extends HTMLElement {
                 color: white;
               }
 
-              .evolution-chain {
-                margin-bottom: 5vh;
-              }
-
               .stats {
                 height: auto;
               }
@@ -392,6 +422,11 @@ class ModalCard extends HTMLElement {
         <div class="close-button"><p><< Close</p></div>
 
         <div class="modal-guts">
+        <div class="modal-nav">
+        <img src="${btn1}" class="prev-button">
+        <img src="${btn1}" class="next-button">
+        </div>
+
         <h2 class="modal-pokemon-name">${toTitleCase(name)} <span>#${number}</span></h2>
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="${toTitleCase(name)}" class="pokemon-image">
 
@@ -516,18 +551,18 @@ class ModalCard extends HTMLElement {
                     const first = this.shadowDOM.querySelector('.first');
 
                     base.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].name}`);
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`);
                     });
 
                     first.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].name}`);
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`);
                     });
 
                     if (result[2]) {
                         const second = this.shadowDOM.querySelector('.second');
 
                         second.addEventListener('click', () => {
-                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].name}`);
+                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`);
                         });
                     }
 
@@ -539,6 +574,24 @@ class ModalCard extends HTMLElement {
             }).catch(error => {
                 console.log(error);
             });
+
+        const prevPokemon = this.shadowDOM.querySelector('.prev-button');
+
+        prevPokemon.addEventListener('click', () => {
+            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${id - 1}`)
+        })
+
+        const nextPokemon = this.shadowDOM.querySelector('.next-button');
+
+        nextPokemon.addEventListener('click', () => {
+            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${id + 1}`)
+        })
+
+        if (id - 1 < 1) {
+            prevPokemon.classList.add('disabled')
+        } else if (id + 1 > 905) {
+            nextPokemon.classList.add('disabled')
+        }
 
         const closeButton = this.shadowDOM.querySelector('.close-button');
 
