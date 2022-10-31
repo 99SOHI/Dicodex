@@ -1,5 +1,5 @@
-import './pokemon-card'
-import DataSource from '../data/data-source.js'
+import './pokemon-card';
+import DataSource from '../data/data-source.js';
 import {
     getIdFromUrl,
     numbering,
@@ -11,61 +11,61 @@ class ModalCard extends HTMLElement {
         super();
         this.shadowDOM = this.attachShadow({
             mode: 'open'
-        })
+        });
     }
 
     set pokemon(pokemon) {
-        this._pokemon = pokemon
+        this._pokemon = pokemon;
 
-        const src1 = `https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`
-        const src2 = `https://pokeapi.co/api/v2/pokemon/${pokemon.varieties[0].pokemon.name}`
-        this.fetch(src1, src2)
+        const src = `https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`;
+
+        this.fetch(src);
     }
 
-    set nextPokemon(event) {
-        const src1 = `https://pokeapi.co/api/v2/pokemon-species/${this_pokemon.id}`
-    }
+    // set nextPokemon(event) {
+    //     const src = `https://pokeapi.co/api/v2/pokemon-species/${this._pokemon.id}`;
+    // }
 
-    set clickEvent(event) {
-        this._clickEvent = event;
-    }
+    // set clickEvent(event) {
+    //     this._clickEvent = event;
+    // }
 
-    async getName(src) {
-        DataSource.getPokemon(src).then(result => {
+    // async getName(src) {
+    //     DataSource.getPokemon(src).then(result => {
 
-        })
-    }
+    //     });
+    // }
 
-    async fetch(src1, src2) {
-        DataSource.getPokemon(src1).then(firstResult => {
-            DataSource.getPokemon(src2).then(secondResult => {
-                let data = [firstResult, secondResult]
-                this.render(data)
-            })
+    async fetch(src) {
+        DataSource.getPokemon(src).then(firstResult => {
+            DataSource.getPokemon(`https://pokeapi.co/api/v2/pokemon/${firstResult.varieties[0].pokemon.name}`).then(secondResult => {
+                let data = [firstResult, secondResult];
+                this.render(data);
+            });
         }).catch(error => {
-            console.log(error)
-        })
+            console.log(error);
+        });
     }
 
     render(data) {
-        const name = data[0].name
-        const id = data[0].id
-        const number = numbering(id)
+        const name = data[0].name;
+        const id = data[0].id;
+        const number = numbering(id);
 
         // __
         let text = data[0].flavor_text_entries.filter(function (el) {
-            return el.language.name == "en"
-        })
-        const flavorText = text[0].flavor_text.replace('\f', ' ')
+            return el.language.name == 'en';
+        });
+        const flavorText = text[0].flavor_text.replace('\f', ' ');
         // --
 
-        const height = data[1].height * 10 + " cm"
-        const weight = data[1].weight / 10 + " kg"
-        const abilities = data[1].abilities[0].ability.name
-        const types = []
+        const height = data[1].height * 10 + ' cm';
+        const weight = data[1].weight / 10 + ' kg';
+        const abilities = data[1].abilities[0].ability.name;
+        const types = [];
         data[1].types.forEach(el => {
-            return types.push(el.type.name)
-        })
+            return types.push(el.type.name);
+        });
 
         this.shadowDOM.innerHTML = `<style>
         .fire {
@@ -314,7 +314,6 @@ class ModalCard extends HTMLElement {
             justify-content: start;
             transition: 100ms;
             cursor: pointer;
-            font-weight: reguler;
             margin: 10px;
           }
 
@@ -427,60 +426,61 @@ class ModalCard extends HTMLElement {
         </div>
       </div>
 
-      </div>`
+      </div>`;
 
-        const typeElement = this.shadowDOM.querySelector('.types')
+        const typeElement = this.shadowDOM.querySelector('.types');
 
         types.forEach(t => {
             typeElement.innerHTML += `
         <p class="${t}">${toTitleCase(t)}</p>
-        `
-        })
-        typeElement.append()
+        `;
+        });
+        typeElement.append();
 
-        const evoChainElement = this.shadowDOM.querySelector('.evolution-chain')
+        const evoChainElement = this.shadowDOM.querySelector('.evolution-chain');
 
         const evolutionResult = async () => {
-            let evoChainData = []
+            let evoChainData = [];
             try {
                 if (data[0].evolution_chain != null) {
                     const result = await DataSource.getPokemon(data[0].evolution_chain.url);
+
                     if (result.chain.evolves_to.length) {
-                        let firstForm = result.chain.species
+                        let firstForm = result.chain.species;
 
-                        let firstEvolution = result.chain.evolves_to[0].species
+                        let firstEvolution = result.chain.evolves_to[0].species;
 
-                        let secondEvolution = result.chain.evolves_to[0].evolves_to[0]
+                        let secondEvolution = result.chain.evolves_to[0].evolves_to[0];
 
                         evoChainData.push({
                             id: getIdFromUrl(firstForm.url),
                             name: firstForm.name
-                        })
+                        });
 
                         evoChainData.push({
                             id: getIdFromUrl(firstEvolution.url),
                             name: firstEvolution.name
-                        })
+                        });
 
                         if (secondEvolution) {
 
                             evoChainData.push({
                                 id: getIdFromUrl(secondEvolution.species.url),
                                 name: secondEvolution.species.name
-                            })
+                            });
                         }
 
-                        return evoChainData
+                        return evoChainData;
                     } else {
-                        return evoChainData
+                        return evoChainData;
                     }
                 } else {
-                    return evoChainData
+                    return evoChainData;
                 }
             } catch (error) {
-                console.log(error)
+                throw new Error(error);
             }
-        }
+        };
 
 
         evolutionResult()
@@ -498,7 +498,7 @@ class ModalCard extends HTMLElement {
                     <p class="pokemon">${toTitleCase(result[1].name)}</p>
                     <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[1].id)}.png" alt="" />
                     </div>
-                    `
+                    `;
 
                     if (result[2]) {
                         evoChainElement.innerHTML += `
@@ -507,50 +507,50 @@ class ModalCard extends HTMLElement {
                             <p class="pokemon">${toTitleCase(result[2].name)}</p>
                             <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${toTitleCase(result[2].id)}.png" alt=""/>
                         </div>
-                        `
+                        `;
                     }
-                    evoChainElement.append()
+                    evoChainElement.append();
 
                     const base = this.shadowDOM.querySelector('.base');
 
                     const first = this.shadowDOM.querySelector('.first');
 
                     base.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].name}`)
-                    })
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[0].id}`, `https://pokeapi.co/api/v2/pokemon/${result[0].name}`);
+                    });
 
                     first.addEventListener('click', () => {
-                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].name}`)
-                    })
+                        this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[1].id}`, `https://pokeapi.co/api/v2/pokemon/${result[1].name}`);
+                    });
 
                     if (result[2]) {
                         const second = this.shadowDOM.querySelector('.second');
 
                         second.addEventListener('click', () => {
-                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].name}`)
-                        })
+                            this.fetch(`https://pokeapi.co/api/v2/pokemon-species/${result[2].id}`, `https://pokeapi.co/api/v2/pokemon/${result[2].name}`);
+                        });
                     }
 
                 } else {
                     evoChainElement.innerHTML += `
-                    <p class="evolution-notice">This Pokemon Doesn't Evolve :(</p>`
+                    <p class="evolution-notice">This Pokemon Doesn't Evolve :(</p>`;
                 }
 
             }).catch(error => {
                 console.log(error);
-            })
+            });
 
-        const closeButton = this.shadowDOM.querySelector('.close-button')
+        const closeButton = this.shadowDOM.querySelector('.close-button');
 
-        const overlay = this.shadowDOM.querySelector('#overlay')
+        const overlay = this.shadowDOM.querySelector('#overlay');
 
         closeButton.addEventListener('click', () => {
-            this.shadowDOM.innerHTML = ``
-        })
+            this.shadowDOM.innerHTML = '';
+        });
         overlay.addEventListener('click', () => {
-            this.shadowDOM.innerHTML = ``
-        })
+            this.shadowDOM.innerHTML = '';
+        });
     }
 }
 
-customElements.define("modal-card", ModalCard)
+customElements.define('modal-card', ModalCard);

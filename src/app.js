@@ -24,7 +24,8 @@ $(function () {
                     let results = $.ui.autocomplete.filter(pokemonName, request.term);
 
                     response(results.slice(0, 10));
-                }
+                },
+                minLength: 2
             });
         });
     });
@@ -56,6 +57,7 @@ const searchButton = async () => {
 const searchInput = document.querySelector('#searchElement').value;
 document.querySelector('#searchButtonElement').addEventListener('click', () => {
     searchButton();
+    console.log(searchInput);
 });
 
 
@@ -68,20 +70,20 @@ img.classList.add('logo');
 
 // Numbering Function
 export function numbering(id) {
-    let number
+    let number;
 
     if (id > 99) {
-        number = id
+        number = id;
     } else if (id > 9) {
-        number = "0" + id
+        number = '0' + id;
     } else if (id > 0) {
-        number = "00" + id
+        number = '00' + id;
     }
 
-    return number
+    return number;
 }
 
 export function getIdFromUrl(url) {
-    let slicedUrl = url.slice(42, 46).slice(0, -1)
-    return slicedUrl
+    let slicedUrl = url.slice(42, 46).slice(0, -1);
+    return slicedUrl;
 }

@@ -1,5 +1,5 @@
-import './pokemon-card.js'
-import '../data/data-source.js'
+import './pokemon-card.js';
+import '../data/data-source.js';
 import main from '../main.js';
 import {
     getIdFromUrl,
@@ -11,7 +11,7 @@ class PokemonList extends HTMLElement {
         super();
         this.shadowDOM = this.attachShadow({
             mode: 'open'
-        })
+        });
     }
 
     set pokemons(pokemons) {
@@ -21,31 +21,36 @@ class PokemonList extends HTMLElement {
 
     set pokemon(searchResult) {
         this._searchResult = searchResult;
-        this.renderOne(searchResult)
+        this.renderOne(searchResult);
     }
 
     set error(error) {
         this._error = error;
-        this.renderError(error)
+        this.renderError(error);
     }
 
     render() {
-        this.shadowDOM.innerHTML = ``;
+        this.shadowDOM.innerHTML = '';
         this._pokemons.forEach(pokemon => {
-            pokemon.id = getIdFromUrl(pokemon.url)
+            pokemon.id = getIdFromUrl(pokemon.url);
 
-            pokemon.number = numbering(pokemon.id)
+            if (pokemon.id.length > 2) {
+                pokemon.number = pokemon.id;
+            } else if (pokemon.id.length > 1) {
+                pokemon.number = '0' + pokemon.id;
+            } else {
+                pokemon.number = '00' + pokemon.id;
+            }
 
             const pokemonCardElement = document.createElement('pokemon-card');
             pokemonCardElement.pokemon = pokemon;
 
             this.shadowDOM.appendChild(pokemonCardElement);
-        })
+        });
     }
 
     renderOne(searchResult) {
-        this.shadowDOM.innerHTML = ``
-
+        this.shadowDOM.innerHTML = '';
         this.shadowDOM.innerHTML += `<style>
         :host {
             display: flex;
@@ -67,42 +72,41 @@ class PokemonList extends HTMLElement {
             cursor: pointer;
             transition: 100ms;
         }
-
         </style>`;
 
 
 
         if (searchResult.id != undefined) {
 
-            searchResult.number = numbering(searchResult.id)
+            searchResult.number = numbering(searchResult.id);
 
             const pokemonCardElement = document.createElement('pokemon-card');
             pokemonCardElement.pokemon = searchResult;
 
-            this.shadowDOM.innerHTML += `<div class="reset-button"><< Go Back</div>`
-            const resetButton = this.shadowDOM.querySelector('.reset-button')
+            this.shadowDOM.innerHTML += '<div class="reset-button"><< Go Back</div>';
+            const resetButton = this.shadowDOM.querySelector('.reset-button');
 
             this.shadowDOM.appendChild(pokemonCardElement);
 
-            resetButton.addEventListener('click', main)
-            const pageNavElement = document.querySelector('page-nav')
+            resetButton.addEventListener('click', main);
+            const pageNavElement = document.querySelector('page-nav');
 
             if (pageNavElement) {
-                pageNavElement.remove()
+                pageNavElement.remove();
 
-                const pageNav = document.createElement('page-nav')
+                const pageNav = document.createElement('page-nav');
                 const bottomHr = document.querySelector('#bottom-hr');
-                let parentDiv = bottomHr.parentNode
-                parentDiv.insertBefore(pageNav, bottomHr)
+                let parentDiv = bottomHr.parentNode;
+                parentDiv.insertBefore(pageNav, bottomHr);
 
             }
         } else {
-            throw new Error()
+            throw new Error();
         }
     }
 
     renderError(entry) {
-        this.shadowDOM.innerHTML = ``
+        this.shadowDOM.innerHTML = '';
         this.shadowDOM.innerHTML += `<style>
         :host {
             display: flex;
@@ -136,22 +140,22 @@ class PokemonList extends HTMLElement {
           </style>`;
 
         this.shadowDOM.innerHTML += `<h2 class="placeholder">There's no pokemon with the name/id ${entry}</h2>
-        <div class="reset-button"><< Go Back</div>`
+        <div class="reset-button"><< Go Back</div>`;
 
-        const resetButton = this.shadowDOM.querySelector('.reset-button')
-        resetButton.addEventListener('click', main)
+        const resetButton = this.shadowDOM.querySelector('.reset-button');
+        resetButton.addEventListener('click', main);
 
-        const pageNavElement = document.querySelector('page-nav')
+        const pageNavElement = document.querySelector('page-nav');
         if (pageNavElement) {
-            pageNavElement.remove()
+            pageNavElement.remove();
 
-            const pageNav = document.createElement('page-nav')
+            const pageNav = document.createElement('page-nav');
             const bottomHr = document.querySelector('#bottom-hr');
-            const parentDiv = bottomHr.parentNode
-            parentDiv.insertBefore(pageNav, bottomHr)
+            let parentDiv = bottomHr.parentNode;
+            parentDiv.insertBefore(pageNav, bottomHr);
 
         }
     }
 }
 
-customElements.define('pokemon-list', PokemonList)
+customElements.define('pokemon-list', PokemonList);

@@ -1,18 +1,14 @@
 import {
-    get
-} from "jquery";
-import {
     toTitleCase
-} from "../../app";
-import DataSource from "../data/data-source";
-import './modal-card.js'
+} from '../../app';
+import './modal-card.js';
 
 class PokemonCard extends HTMLElement {
     constructor() {
         super();
         this.shadowDOM = this.attachShadow({
             mode: 'open'
-        })
+        });
     }
 
     set pokemon(pokemon) {
@@ -25,20 +21,7 @@ class PokemonCard extends HTMLElement {
     }
 
     render() {
-        let pokemonData = this._pokemon
-
-        if (pokemonData.varieties == undefined) {
-            const getPokemonData = async () => {
-                DataSource.getPokemon(`https://pokeapi.co/api/v2/pokemon-species/${pokemonData.name}`).then(result => {
-                    pokemonData = result
-                }).catch(() => {
-                    throw new Error()
-                })
-            }
-
-            getPokemonData()
-        }
-
+        const pokemonData = this._pokemon;
         this.shadowDOM.innerHTML = `
         <style>
 
@@ -91,17 +74,16 @@ class PokemonCard extends HTMLElement {
 
                 <h5 class="pokemon-id">#${this._pokemon.number}</h5>
                 <h4 class="pokemon-name">${toTitleCase(this._pokemon.name)}</h4>
-        </div>`
+        </div>`;
 
-        this.shadowDOM.querySelector('.pokemon-card').addEventListener('click', async function () {
-
-            const modalElement = document.querySelector('modal-card');
+        this.shadowDOM.querySelector('.pokemon-card').addEventListener('click', function () {
+            const modalElement = document.createElement('modal-card');
 
             modalElement.pokemon = pokemonData;
 
             document.body.appendChild(modalElement);
-        })
+        });
     }
 }
 
-customElements.define("pokemon-card", PokemonCard)
+customElements.define('pokemon-card', PokemonCard);

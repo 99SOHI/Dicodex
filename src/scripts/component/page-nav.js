@@ -16,7 +16,7 @@ class PageNav extends HTMLElement {
 
     set json(json) {
         this._json = json;
-        this.render()
+        this.render();
     }
 
     render() {
@@ -61,16 +61,17 @@ class PageNav extends HTMLElement {
 
         <button class="page-nav prev disabled">Prev</button>
         <button class="page-nav next disabled">Next</button>
-        `
-        const prevButton = this.shadowDOM.querySelector('.prev')
-        const nextButton = this.shadowDOM.querySelector('.next')
+        `;
+        
+        const prevButton = this.shadowDOM.querySelector('.prev');
+        const nextButton = this.shadowDOM.querySelector('.next');
 
         if (this._json.next !== null) {
-            nextButton.classList.remove("disabled")
+            nextButton.classList.remove('disabled');
         }
 
         if (this._json.previous !== null) {
-            prevButton.classList.remove("disabled")
+            prevButton.classList.remove('disabled');
         }
 
         prevButton.addEventListener('click', this._prevPage);
@@ -79,4 +80,4 @@ class PageNav extends HTMLElement {
     }
 }
 
-customElements.define("page-nav", PageNav)
+customElements.define('page-nav', PageNav);
